@@ -1,0 +1,12 @@
+label.error {
+    color: #ff4a1b;
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+    text-indent: 4px;
+}
+
+input.error,
+select.error {
+    border-color: #ff4a1b !important;
+}

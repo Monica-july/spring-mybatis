@@ -1,0 +1,40 @@
+			input.error,select.error,textarea.error {
+				border: 1px solid red;
+				font: normal 14px "microsoft yahei";
+			}
+			.jiaoyan{
+				position:relative;
+				display:inline-block;
+			}
+			/*调整提示信息样式*/
+			label.error:before{
+			    content: '';
+			    border-bottom: 8px solid #076fbb;
+			    border-top: 5px solid transparent;
+			    border-left: 5px solid transparent;
+			    border-right: 5px solid transparent;
+			    position: relative;
+			    top: -23px;
+			    left: 10px;
+			    z-index: 9999;
+			}
+
+			.jiaoyan label.error{
+				text-align:left;
+			}
+			label.error {
+				position: absolute;
+				width:auto;
+				left: 0px;
+				top: 45px;
+				background: #076fbb;
+				font-size: 10px;
+				color: white;
+				z-index: 9999;
+				border-radius: 5px;
+				height:25px;
+				line-height:25px;
+
+			}
+
+
