@@ -1,40 +1,62 @@
 			input.error,select.error,textarea.error {
 				border: 1px solid red;
-				font: normal 14px "microsoft yahei";
-			}
-			.jiaoyan{
-				position:relative;
-				display:inline-block;
+				/*font: normal 14px "microsoft yahei";*/
 			}
 			/*调整提示信息样式*/
-			label.error:before{
+			label.error {
+				position: absolute;
+				left: 0px;
+				top: 25px;
+				background: #076fbb;
+				padding: 5px 10px 5px 0px;
+				font-size: 12px;
+				color: white;
+				z-index: 999;
+				border-radius: 5px;
+			}
+
+			label:before{
 			    content: '';
 			    border-bottom: 8px solid #076fbb;
 			    border-top: 5px solid transparent;
 			    border-left: 5px solid transparent;
 			    border-right: 5px solid transparent;
 			    position: relative;
-			    top: -23px;
+			    top: -27px;
 			    left: 10px;
 			    z-index: 9999;
 			}
-
-			.jiaoyan label.error{
-				text-align:left;
-			}
-			label.error {
-				position: absolute;
-				width:auto;
+			
+			/*.true{*/
+				/*width: 20px;*/
+				/*height: 16px;*/
+				/*display: inline-block; */
+				/*background: url(../imgages/Ture.png) no-repeat center center;*/
+				/*position: relative;*/
+				/*top: 3px;*/
+			/*}*/
+			/*.false{*/
+				/*width: 20px;*/
+				/*height: 16px;*/
+				/*display: inline-block; */
+				/*background: url(../imgages/False.png) no-repeat center center;*/
+				/*position: relative;*/
+				/*top: 3px;*/
+			/*}*/
+			/*添加提示框上方的尖角*/
+	/*		label.error:before {
+				content: "";
+				width: 10px;
+				height: 10px;
+				border-bottom: 8px solid #076fbb;
+				border-top: 5px solid transparent;
+				border-left: 5px solid transparent;
+				border-right: 5px solid transparent;
+				position: relative;
+				top: -20px;
 				left: 0px;
-				top: 45px;
-				background: #076fbb;
-				font-size: 10px;
-				color: white;
-				z-index: 9999;
-				border-radius: 5px;
-				height:25px;
-				line-height:25px;
-
 			}
 
-
+*/		.validate_container{
+				  position:relative;
+			  }

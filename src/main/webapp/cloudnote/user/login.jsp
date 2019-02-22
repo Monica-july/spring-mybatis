@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/validate.css">
     <script src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate.js"></script>
-    <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-extends.js"></script>
+    <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/log_validate.js"></script>
     <title>云笔记</title>
     <style type="text/css">
@@ -71,8 +71,19 @@
 <script>
     var basePath = "<%=request.getContextPath()%>";
     $("#login_btn").click(function () {
-        $("#login_form").attr("action",(basePath+"/user/dologin"));
-        $("#login_form").submit;
+        if ($("#login_form").validate()){
+            $.ajax({
+                url:basePath+"/user/dologin",
+                type:"post",
+                data:encodeURI($("#login_form").val().serializeArray()),
+                async:false,
+                success:function (data) {
+                    layer.alert(data.msg);
+                }
+            })
+        }else {
+            layer.alert("请确认用户名密码正确性!")
+        }
     })
 </script>
 </html>

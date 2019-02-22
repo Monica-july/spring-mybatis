@@ -11,13 +11,15 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/logreg.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/validate.css">
+    <%--<link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/validate.css">--%>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/new_file.css">
     <script src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/user.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate.js"></script>
-    <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-extends.js"></script>
+    <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/reg_validate.js"></script>
+    <script src="<%=request.getContextPath()%>/static/layerv2.4/layer.js"></script>
     <title>云笔记</title>
     <style type="text/css">
         *{
@@ -46,7 +48,7 @@
             </div>
             <div class="lgD">
                 <img src="<%=request.getContextPath()%>/static/images/pas.svg" width="20" height="20" alt=""/>
-                <input type="text" name="userPassword" id="userPassword" placeholder="输入用户密码"/>
+                <input type="password" name="userPassword" id="userPassword" placeholder="输入用户密码"/>
             </div>
             <div class="lgD">
                 <img src="<%=request.getContextPath()%>/static/images/email.svg" width="20" height="20" alt=""/>
@@ -85,9 +87,10 @@
     $("#reg_btn").click(function () {
         if($("#register_form").valid()){
             if ((qzn+qze+qzp)!=0){
-                alert("请确认填写信息!");
+                layer.alert("请确认填写信息!");
                 return;
             }
+            console.info("校验成功")
             return;
             $.ajax({
                 url:basePath+"/user/doregister",
@@ -95,14 +98,13 @@
                 data:$("#register_form").serializeArray(),
                 async:true,
                 success:function (data) {
-                    alert(data.msg);
+                    //注册成功跳转到登录界面
+                    layer.msg("注册成功!即将跳转到登录界面...");
+                    window.location.href = basePath+"/user/login";
                 }
             });
         }
     });
-
-    //校验
-
 </script>
 </html>
 
