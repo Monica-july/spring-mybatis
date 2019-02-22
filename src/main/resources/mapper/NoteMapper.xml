@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.dao.NoteMapper">
+    <resultMap id="NoteMap" type="com.neuedu.entity.NoteVo">
+        <id column="user_id" property="userId"/>
+        <id column="note_id" property="noteId"/>
+        <result column="note_status" property="noteStatus"/>
+        <result column="note_type" property="noteType"/>
+        <result column="note_path" property="notePath"/>
+        <result column="note_title" property="noteTitle"/>
+        <result column="note_create_time" property="noteCreateTime"/>
+        <result column="note_modify_time" property="noteModifyTime"/>
+    </resultMap>
+</mapper>
