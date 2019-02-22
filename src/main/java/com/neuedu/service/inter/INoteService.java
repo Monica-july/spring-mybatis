@@ -4,5 +4,5 @@ import com.neuedu.common.JsonResponse;
 import com.neuedu.entity.UserVo;
 
 public interface INoteService {
-
+    JsonResponse getRootKids(String userId);
 }
