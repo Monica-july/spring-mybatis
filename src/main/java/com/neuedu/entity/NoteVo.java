@@ -4,7 +4,8 @@ public class NoteVo {
     private String userId;//用户id
     private String noteId;//笔记id
     private String noteStatus;//笔记状态
-    private String noteParentFolder; //笔记所在文件夹
+    private String noteType;//类型    1文件   2文件夹
+    private String noteParent; //笔记所在文件夹
     private String notePath;//笔记存储路径
     private String noteTitle;//笔记标题
     private String noteCreateTime;//笔记创建时间
@@ -34,12 +35,20 @@ public class NoteVo {
         this.noteStatus = noteStatus;
     }
 
-    public String getNoteParentFolder() {
-        return noteParentFolder;
+    public String getNoteType() {
+        return noteType;
     }
 
-    public void setNoteParentFolder(String noteParentFolder) {
-        this.noteParentFolder = noteParentFolder;
+    public void setNoteType(String noteType) {
+        this.noteType = noteType;
+    }
+
+    public String getNoteParent() {
+        return noteParent;
+    }
+
+    public void setNoteParent(String noteParent) {
+        this.noteParent = noteParent;
     }
 
     public String getNotePath() {
