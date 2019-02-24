@@ -11,12 +11,13 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/logreg.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/validate.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/new_file.css">
     <script src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-extends.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/log_validate.js"></script>
+    <script src="<%=request.getContextPath()%>/static/layerv2.4/layer.js"></script>
     <title>云笔记</title>
     <style type="text/css">
         *{
@@ -41,11 +42,11 @@
             <!-- 输入框 -->
             <div class="lgD">
                 <img src="<%=request.getContextPath()%>/static/images/login.svg" width="20" height="20" alt=""/>
-                <input type="text" placeholder="输入用户名" />
+                <input type="text" name="userName" id="userName" placeholder="输入用户名" />
             </div>
             <div class="lgD">
                 <img src="<%=request.getContextPath()%>/static/images/pas.svg" width="20" height="20" alt=""/>
-                <input type="password" placeholder="输入用户密码" />
+                <input type="password" name="userPassword" id="userPassword" placeholder="输入用户密码" />
             </div>
         </form>
         <div class="logC">
@@ -71,12 +72,18 @@
 <script>
     var basePath = "<%=request.getContextPath()%>";
     $("#login_btn").click(function () {
+        var log = $("#login_form").val();
+        if(log == "" || log == undefined || log == null){
+            layer.alert("请输入用户名密码!")
+            return;
+        }
         if ($("#login_form").validate()){
             $.ajax({
                 url:basePath+"/user/dologin",
                 type:"post",
-                data:encodeURI($("#login_form").val().serializeArray()),
+                data:$("#login_form").serializeArray(),
                 async:false,
+                dataType:"json",
                 success:function (data) {
                     layer.alert(data.msg);
                 }

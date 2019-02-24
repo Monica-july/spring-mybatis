@@ -34,6 +34,6 @@
 
     <!--用户登录-->
     <select id="userLogin" parameterType="com.neuedu.entity.UserVo" resultMap="UserMap">
-        SELECT * FROM tb_user u WHERE u.user_name = #{userName} AND u.user_password = #{user_password}
+        SELECT * FROM tb_user u WHERE u.user_name = #{userName} AND u.user_password = #{userPassword}
     </select>
 </mapper>

@@ -17,4 +17,10 @@
     <select id="getRootKids" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userId} and n.note_parent = '0';
     </select>
+
+    <insert id="createNote" parameterType="com.neuedu.entity.NoteVo">
+        INSERT INTO tb_note VALUES
+        (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
+        #{notePath},#{noteCreateTime},#{noteModifyTime},#{noteRoot})
+    </insert>
 </mapper>

@@ -3,13 +3,14 @@ package com.neuedu.entity;
 public class NoteVo {
     private String userId;//用户id
     private String noteId;//笔记id
+    private String noteName;//文件/文件夹名称
     private String noteStatus;//笔记状态
     private String noteType;//类型    1文件   2文件夹
     private String noteParent; //笔记所在文件夹
     private String notePath;//笔记存储路径
-    private String noteTitle;//笔记标题
     private String noteCreateTime;//笔记创建时间
     private String noteModifyTime;//笔记修改时间
+    private String noteRoot;//是否为根节点
 
     public String getUserId() {
         return userId;
@@ -25,6 +26,14 @@ public class NoteVo {
 
     public void setNoteId(String noteId) {
         this.noteId = noteId;
+    }
+
+    public String getNoteName() {
+        return noteName;
+    }
+
+    public void setNoteName(String noteName) {
+        this.noteName = noteName;
     }
 
     public String getNoteStatus() {
@@ -59,14 +68,6 @@ public class NoteVo {
         this.notePath = notePath;
     }
 
-    public String getNoteTitle() {
-        return noteTitle;
-    }
-
-    public void setNoteTitle(String noteTitle) {
-        this.noteTitle = noteTitle;
-    }
-
     public String getNoteCreateTime() {
         return noteCreateTime;
     }
@@ -81,5 +82,13 @@ public class NoteVo {
 
     public void setNoteModifyTime(String noteModifyTime) {
         this.noteModifyTime = noteModifyTime;
+    }
+
+    public String getNoteRoot() {
+        return noteRoot;
+    }
+
+    public void setNoteRoot(String noteRoot) {
+        this.noteRoot = noteRoot;
     }
 }
