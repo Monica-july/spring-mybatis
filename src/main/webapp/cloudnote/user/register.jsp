@@ -11,7 +11,6 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/logreg.css">
-    <%--<link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/validate.css">--%>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/new_file.css">
     <script src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/user.js"></script>
@@ -85,25 +84,30 @@
     var qzp = 0;
     //注册
     $("#reg_btn").click(function () {
-        if($("#register_form").valid()){
+        var reg = $("#register_form").val();
+        if (reg == "" || reg == null || reg ==undefined){
+            layer.alert("请填写用户注册信息!");
+            return;
+        }
+        // if($("#register_form").valid()){
             if ((qzn+qze+qzp)!=0){
                 layer.alert("请确认填写信息!");
                 return;
             }
-            console.info("校验成功")
-            return;
+
             $.ajax({
                 url:basePath+"/user/doregister",
                 type:"post",
                 data:$("#register_form").serializeArray(),
                 async:true,
+                dataType:"json",
                 success:function (data) {
                     //注册成功跳转到登录界面
                     layer.msg("注册成功!即将跳转到登录界面...");
                     window.location.href = basePath+"/user/login";
                 }
             });
-        }
+        // }
     });
 </script>
 </html>

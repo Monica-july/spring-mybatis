@@ -1,7 +1,7 @@
 #wrap {
     height: 719px;
     width: 100%;
-    /*background-image: url(4.jpg);*/
+    background-image: url(/static/images/bg.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     position: relative;

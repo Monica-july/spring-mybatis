@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NoteService implements INoteService{
@@ -26,5 +27,12 @@ public class NoteService implements INoteService{
         }
         jsonResponse.setStatus("1");
         return jsonResponse;
+    }
+
+    public JsonResponse createNote(NoteVo note) {
+        note.setNoteId(UUID.randomUUID().toString().replaceAll("-",""));
+        note.setNoteStatus("1");
+//        note.setNotePath();
+        return null;
     }
 }

@@ -19,7 +19,7 @@ $(document).ready(function () {
             },
             userPhone:{
                 space:true,
-                phone:true,
+                // mobile:true,
             }
         },
         messages:{
@@ -41,7 +41,7 @@ $(document).ready(function () {
             },
             userPhone:{
                 space:"手机号码不能包含空格或null",
-                phone:"手机号码格式错误",
+                // mobile:"手机号码格式错误",
             }
         }
     })
