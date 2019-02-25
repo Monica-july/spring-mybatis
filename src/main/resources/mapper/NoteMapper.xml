@@ -15,7 +15,7 @@
         <result column="note_modify_time" property="noteModifyTime"/>
     </resultMap>
     <select id="getRootKids" resultMap="NoteMap">
-        SELECT * FROM tb_note n WHERE n.user_id = #{userId} and n.note_parent = '0';
+        SELECT * FROM tb_note n WHERE n.user_id = #{userId} and n.note_parent = '0' OR n.note_name = '我的文件夹';
     </select>
 
     <insert id="createNote" parameterType="com.neuedu.entity.NoteVo">
@@ -23,4 +23,21 @@
         (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
         #{notePath},#{noteCreateTime},#{noteModifyTime},#{noteRoot})
     </insert>
+    
+    <select id="getParentPath" resultType="java.lang.String">
+        SELECT n.note_path FROM tb_note n WHERE n.note_id = #{parentid}
+    </select>
+
+    <select id="getNotes" resultMap="NoteMap">
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_type = '1'
+        AND n.note_status = '1' ORDER BY n.note_modify_time , n.note_create_time
+    </select>
+
+    <select id="getContent" resultMap="NoteMap">
+        SELECT * FROM tb_note n HAVING n.user_id = #{userid} n.note_type = '1' AND n.note_create_time = MAX(n.note_modify_time)
+    </select>
+
+    <select id="getTree" resultMap="NoteMap">
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_parent = #{noteparent} AND n.note_status = '1' AND n.note_root = '0'
+    </select>
 </mapper>
