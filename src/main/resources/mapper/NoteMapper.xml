@@ -18,26 +18,34 @@
         SELECT * FROM tb_note n WHERE n.user_id = #{userId} and n.note_parent = '0' OR n.note_name = '我的文件夹';
     </select>
 
+    <!--新建文件、文件夹-->
     <insert id="createNote" parameterType="com.neuedu.entity.NoteVo">
         INSERT INTO tb_note VALUES
         (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
         #{notePath},#{noteCreateTime},#{noteModifyTime},#{noteRoot})
     </insert>
-    
+
+    <!--获取父节点路径信息-->
     <select id="getParentPath" resultType="java.lang.String">
         SELECT n.note_path FROM tb_note n WHERE n.note_id = #{parentid}
     </select>
 
+    <!--最近打开的文档们-->
     <select id="getNotes" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_type = '1'
         AND n.note_status = '1' ORDER BY n.note_modify_time , n.note_create_time
     </select>
 
+    <!--最近修改的一篇文档-->
     <select id="getContent" resultMap="NoteMap">
-        SELECT * FROM tb_note n HAVING n.user_id = #{userid} n.note_type = '1' AND n.note_create_time = MAX(n.note_modify_time)
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_type = '1'
+        AND n.note_status = '1' AND n.note_modify_time = (SELECT MAX(t.note_modify_time+0) FROM tb_note t)
     </select>
 
+    <!--加载下一层-->
     <select id="getTree" resultMap="NoteMap">
-        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_parent = #{noteparent} AND n.note_status = '1' AND n.note_root = '0'
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_parent = #{noteparent}
+        AND n.note_status = '1' AND n.note_root = '0'
     </select>
+
 </mapper>

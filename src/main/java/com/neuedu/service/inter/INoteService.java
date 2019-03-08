@@ -19,4 +19,8 @@ public interface INoteService {
     JsonResponse reName(NoteFo fo);
 
     JsonResponse getTree(NoteFo fo);
+    /**
+     * 点击文件 加载展示笔记内容
+     * */
+    NoteVo getDetails(NoteFo fo);
 }

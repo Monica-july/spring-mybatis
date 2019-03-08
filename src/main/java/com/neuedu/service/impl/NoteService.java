@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class NoteService implements INoteService{
@@ -119,7 +118,9 @@ public class NoteService implements INoteService{
         return jsonResponse;
     }
 
-
+    /**
+     * 加载下一层
+     * */
     public JsonResponse getTree(NoteFo fo){
         JsonResponse jsonResponse = new JsonResponse();
         List<NoteVo> notes = noteMapper.getTree(fo.getUserId(),fo.getNoteParent());
@@ -133,4 +134,13 @@ public class NoteService implements INoteService{
         }
         return jsonResponse;
     }
+
+    /**
+     * 展示笔记内容
+     * */
+    public NoteVo getDetails(NoteFo fo) {
+        NoteVo noteVo = noteMapper.getDetails(fo.getUserId(),fo.getNoteId());
+        return noteVo;
+    }
+
 }

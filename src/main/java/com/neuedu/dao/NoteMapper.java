@@ -39,4 +39,6 @@ public interface NoteMapper {
      * 加载左侧下一层
      * */
     List<NoteVo> getTree(String userid,String noteparent);
+
+    NoteVo getDetails(String userid,String noteid);
 }
