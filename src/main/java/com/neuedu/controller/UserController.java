@@ -34,10 +34,10 @@ public class UserController {
 
     @RequestMapping("/dologin")
     @ResponseBody
-    public JsonResponse do_login(UserVo userVo){
+    public JsonResponse do_login(UserVo userVo,HttpServletRequest request){
         JsonResponse jsonResponse = null;
         try {
-            jsonResponse = userService.do_login(userVo);
+            jsonResponse = userService.do_login(userVo,request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

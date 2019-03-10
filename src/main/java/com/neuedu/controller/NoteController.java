@@ -27,7 +27,7 @@ public class NoteController {
     private Logger logger = LoggerFactory.getLogger(NoteController.class);
     @RequestMapping("/index")
     public String index(){
-        return "note/tree";
+        return "note/note";
     }
 
     /**

@@ -12,6 +12,8 @@ import com.neuedu.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -28,12 +30,15 @@ public class UserService implements IUserService {
     /**
      * 用户登录
      * */
-    public JsonResponse do_login(UserVo userVo) throws UnsupportedEncodingException {
+    public JsonResponse do_login(UserVo userVo, HttpServletRequest request) throws UnsupportedEncodingException {
         JsonResponse jsonResponse = new JsonResponse();
         userVo.setUserName(URLDecoder.decode(userVo.getUserName(),"utf-8"));
         userVo.setUserPassword(MD5Utils.GetMD5Code(userVo.getUserPassword()));
         UserVo user = userMapper.userLogin(userVo);
         if (user != null){
+            //将用户信息存入session
+            HttpSession session = request.getSession();
+            session.setAttribute(Const.USERSESSION,user);
             jsonResponse.setStatus("1");
             jsonResponse.setMsg("登录成功!");
             jsonResponse.setData(user);
@@ -67,6 +72,7 @@ public class UserService implements IUserService {
             root.setNoteType("2");
             root.setNotePath(path);
             root.setNoteCreateTime(StringUtil.getNow());
+            root.setNoteModifyTime(StringUtil.getNow());
             root.setNoteName("我的资源");
             root.setNoteRoot("1");
             noteMapper.createNote(root);

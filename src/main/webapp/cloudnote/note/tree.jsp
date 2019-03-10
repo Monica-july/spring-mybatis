@@ -18,6 +18,9 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/static/layui-v2.4.5/layui/layui.js"></script>
     <style>
+        body .layui-tree-skin-shihuang .layui-tree-branch{
+            background-image: url("/static/images/file.svg");
+        }
     </style>
 </head>
 <body>
