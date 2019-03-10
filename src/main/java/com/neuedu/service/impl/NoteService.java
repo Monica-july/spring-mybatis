@@ -27,7 +27,7 @@ public class NoteService implements INoteService{
     public JsonResponse getRootKids(String userId) {
         JsonResponse jsonResponse = new JsonResponse();
         List<NoteVo> notes = noteMapper.getRootKids(userId);
-        if (notes == null && notes.size() == 0){
+        if (notes == null || notes.size() == 0){
             jsonResponse.setMsg("未查询到数据");
         }else {
             jsonResponse.setData(notes);
@@ -46,6 +46,7 @@ public class NoteService implements INoteService{
         note.setNoteId(UUID.randomUUID().toString().replaceAll("-",""));
         note.setNoteStatus("1");
         note.setNoteCreateTime(StringUtil.getNow());
+        note.setNoteModifyTime(StringUtil.getNow());
         note.setNoteRoot("0");
         //查询父节点路径
         String parentpath = noteMapper.getParentPath(note.getNoteParent());

@@ -3,13 +3,14 @@ package com.neuedu.service.inter;
 import com.neuedu.common.JsonResponse;
 import com.neuedu.entity.UserVo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 public interface IUserService {
     /**
      * 登录
      * */
-    JsonResponse do_login(UserVo userVo) throws UnsupportedEncodingException;
+    JsonResponse do_login(UserVo userVo, HttpServletRequest request) throws UnsupportedEncodingException;
 
     /**
      * 注册

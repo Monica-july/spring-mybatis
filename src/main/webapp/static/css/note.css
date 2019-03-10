@@ -85,3 +85,10 @@
     width: 100%;
     margin-top: 10px;
 }
+.m_l_list .li{
+    height: 80px;
+}
+
+.drag-line {
+    cursor: ew-resize;
+}

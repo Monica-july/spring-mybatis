@@ -73,10 +73,10 @@
     var basePath = "<%=request.getContextPath()%>";
     $("#login_btn").click(function () {
         var log = $("#login_form").val();
-        if(log == "" || log == undefined || log == null){
-            layer.alert("请输入用户名密码!")
-            return;
-        }
+        // if(log == "" || log == undefined || log == null){
+        //     layer.alert("请输入用户名密码!")
+        //     return;
+        // }
         if ($("#login_form").validate()){
             $.ajax({
                 url:basePath+"/user/dologin",
