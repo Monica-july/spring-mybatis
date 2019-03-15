@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2019\2\22 0022
-  Time: 14:47
+  User: july
+  Date: 2019/3/12
+  Time: 22:48
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,8 +34,9 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                当前文件名称
+                个人中心
             </h1>
+
         </div>
         <div id="page-inner">
 
