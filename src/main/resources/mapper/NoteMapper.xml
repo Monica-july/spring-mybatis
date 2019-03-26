@@ -17,7 +17,6 @@
     </resultMap>
     <select id="getRootKids" resultMap="NoteMap">
         SELECT * FROM tb_note n where n.user_id=#{userid} AND n.note_root = '1'
-        OR n.note_parent = (SELECT n.note_id FROM tb_note n WHERE n.note_root = '1' AND  n.user_id=#{userid})
     </select>
 
     <!--新建文件、文件夹-->

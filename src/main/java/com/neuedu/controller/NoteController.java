@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +28,7 @@ public class NoteController {
     private Logger logger = LoggerFactory.getLogger(NoteController.class);
     @RequestMapping("/index")
     public String index(){
-        return "note/note";
+        return "note/note2";
     }
 
     /**
@@ -87,7 +88,7 @@ public class NoteController {
      * */
     @RequestMapping("/create")
     @ResponseBody
-    public JsonResponse createNote(HttpServletRequest request, NoteFo fo){
+    public JsonResponse createNote(HttpServletRequest request,@ModelAttribute NoteFo fo){
         JsonResponse jsonResponse = new JsonResponse();
         UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
         if (user == null){
