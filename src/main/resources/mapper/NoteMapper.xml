@@ -16,13 +16,18 @@
         <result column="note_root" property="noteRoot"></result>
     </resultMap>
     <select id="getRootKids" resultMap="NoteMap">
-        SELECT * FROM tb_note n where n.user_id=#{userid} AND n.note_root = '1'
+        SELECT * FROM tb_note n WHERE n.user_id = #{userId}
+        and n.note_parent = (SELECT t.note_id FROM tb_note t WHERE t.note_root = '1')
+        ORDER BY n.note_modify_time DESC
     </select>
 
+    <select id="getRootNoteId" resultType="java.lang.String">
+        SELECT n.note_id FROM tb_note n WHERE n.user_id = #{userid} AND n.note_root = '1'
+    </select>
     <!--新建文件、文件夹-->
     <insert id="createNote" parameterType="com.neuedu.entity.NoteVo">
-        INSERT INTO tb_note VALUES
-        (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
+        INSERT INTO tb_note (user_id,note_id,note_name,note_status,note_type,note_parent,note_path,note_create_time,note_modify_time,note_root)
+        VALUES (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
         #{notePath},#{noteCreateTime},#{noteModifyTime},#{noteRoot})
     </insert>
 
@@ -34,7 +39,7 @@
     <!--最近打开的文档们-->
     <select id="getNotes" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_type = '1'
-        AND n.note_status = '1' ORDER BY n.note_modify_time , n.note_create_time
+        AND n.note_status = '1' ORDER BY n.note_modify_time DESC limit 0,10
     </select>
 
     <!--最近修改的一篇文档-->
@@ -46,7 +51,17 @@
     <!--加载下一层-->
     <select id="getTree" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_parent = #{noteparent}
-        AND n.note_status = '1' AND n.note_root = '0'
+        AND n.note_status = '1' AND n.note_root = '0' ORDER BY n.note_modify_time DESC
     </select>
 
+    <!--删除文档-->
+    <delete id="delete">
+
+    </delete>
+
+
+    <!--查询父节点下文件编号的最大值-->
+    <select id="getMaxNoteId" resultType="java.lang.String">
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_id LIKE #{noteparent}
+    </select>
 </mapper>

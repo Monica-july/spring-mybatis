@@ -130,13 +130,13 @@
                     <span class="hidden-phone">新建文件夹</span>
                 </a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" id="lately">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="micon-stats-up"></i>
                     <span class="hidden-phone">最近打开</span>
                 </a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" id="mine">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="micon-checkbox"></i>
                     <span class="hidden-phone">我的文件夹</span>
@@ -156,13 +156,13 @@
         <div class="z0_ymc">
             <span  id="bmmc">原文件名</span>
             <div class="jiaoyan">
-                <input type="text" id="noteName" name="noteName"  disabled style="width:250px;">
+                <input type="text" id="noteOldName" name="noteOldName"  disabled style="width:250px;">
             </div>
         </div>
         <div class="z0_xmc">
             <span>新文件名</span>
             <div class="jiaoyan">
-                <input type="text" id="noteNewName" name="noteNewName" style="width:250px;">
+                <input type="text" id="noteName" name="noteName" style="width:250px;">
             </div>
         </div>
         <div class="z0_qr">
@@ -170,9 +170,9 @@
             <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="cancel()">
         </div>
     </div>
-    <input type="hidden" name="noteType" value=""><%--笔记类型   1笔记  2文件夹--%>
-    <input type="hidden" name="noteParent" value="1ce087968bd345dea81bbcd5d7fdaf72">
-    <input type="hidden" name="noteId" value="">
+    <input type="hidden" name="noteType" id="noteType" value=""><%--笔记类型   1笔记  2文件夹--%>
+    <input type="hidden" name="noteParent" id="noteParent">
+    <input type="hidden" name="noteId" id="noteId" value="">
 </form>
 
 

@@ -22,9 +22,4 @@ public class StringUtil {
         return sdf.format(new Date());
     }
 
-    //对象转换
-    public static Object sourceToTarget(Object source,Object target){
-
-        return target;
-    }
 }

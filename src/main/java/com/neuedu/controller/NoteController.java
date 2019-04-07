@@ -98,6 +98,7 @@ public class NoteController {
         }
         //新建文档、文件夹
         try {
+            fo.setUserId(user.getUserId());
             jsonResponse = noteService.createNote(fo);
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,6 +136,7 @@ public class NoteController {
             jsonResponse.setStatus("31");
             return jsonResponse;
         }
+        fo.setUserId(user.getUserId());
         jsonResponse = noteService.getTree(fo);
         return jsonResponse;
     }
@@ -155,6 +157,19 @@ public class NoteController {
         NoteVo noteVo = noteService.getDetails(fo);
         //文件内容读取
         String path = noteVo.getNotePath();
+        return jsonResponse;
+    }
+
+    public JsonResponse delete(HttpServletRequest request,NoteFo fo){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        fo.setUserId(user.getUserId());
+
         return jsonResponse;
     }
 }
