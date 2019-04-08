@@ -18,7 +18,7 @@
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-extends.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
     <script src="<%=request.getContextPath()%>/static/js/reg_validate.js"></script>
-    <script src="<%=request.getContextPath()%>/static/layerv2.4/layer.js"></script>
+    <script src="<%=request.getContextPath()%>/static/layer/layer.js"></script>
     <title>云笔记</title>
     <style type="text/css">
         *{

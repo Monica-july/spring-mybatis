@@ -10,6 +10,12 @@ import java.io.IOException;
 public interface INoteService {
     JsonResponse getRootKids(String userId);
 
+    /**
+     * 新建
+     * @param fo
+     * @return
+     * @throws IOException
+     */
     JsonResponse createNote(NoteFo fo) throws IOException;
 
     JsonResponse getNotes(String userid);

@@ -67,13 +67,13 @@ public class UserService implements IUserService {
             String path = Const.FILEPATH+ File.separator+userid+File.separator+"我的文件夹";
             NoteVo root = new NoteVo();
             root.setUserId(userid);
-            root.setNoteId(UUID.randomUUID().toString().replaceAll("-",""));
+            root.setNoteId("001000000000000000");
             root.setNoteStatus("1");
             root.setNoteType("2");
             root.setNotePath(path);
             root.setNoteCreateTime(StringUtil.getNow());
             root.setNoteModifyTime(StringUtil.getNow());
-            root.setNoteName("我的资源");
+            root.setNoteName("我的文件夹");
             root.setNoteRoot("1");
             noteMapper.createNote(root);
             //创建文件
