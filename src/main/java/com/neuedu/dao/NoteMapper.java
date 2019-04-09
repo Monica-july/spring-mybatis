@@ -1,6 +1,7 @@
 package com.neuedu.dao;
 
 import com.neuedu.entity.NoteVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,7 +39,15 @@ public interface NoteMapper {
     /**
      * 加载左侧下一层
      * */
-    List<NoteVo> getTree(String userid,String noteparent);
+    List<NoteVo> getTree(@Param("userid") String userid, @Param("noteparent") String noteparent);
 
-    NoteVo getDetails(String userid,String noteid);
+    NoteVo getDetails(@Param("userid") String userid,@Param("noteid") String noteid);
+
+    /**
+     * 查询当前用户根文件夹的note id
+     * */
+    String getRootNoteId(String userid);
+
+
+    String getMaxNoteId(@Param("userid") String userid,@Param("noteparent")String noteparent);
 }

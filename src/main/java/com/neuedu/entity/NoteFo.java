@@ -5,7 +5,7 @@ public class NoteFo {
     private String noteId;//id
     private String noteParent; //父节点
     private String noteName;//名称
-    private String noteNewName;//新名称
+    private String noteOldName;//原名称
     private String noteType;//类别   1文件  2文件夹
 
     public String getUserId() {
@@ -48,11 +48,11 @@ public class NoteFo {
         this.noteType = noteType;
     }
 
-    public String getNoteNewName() {
-        return noteNewName;
+    public String getNoteOldName() {
+        return noteOldName;
     }
 
-    public void setNoteNewName(String noteNewName) {
-        this.noteNewName = noteNewName;
+    public void setNoteOldName(String noteOldName) {
+        this.noteOldName = noteOldName;
     }
 }
