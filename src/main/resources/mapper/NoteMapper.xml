@@ -26,8 +26,8 @@
     </select>
     <!--新建文件、文件夹-->
     <insert id="createNote" parameterType="com.neuedu.entity.NoteVo">
-        INSERT INTO tb_note (user_id,note_id,note_name,note_status,note_type,note_parent,note_path,note_create_time,note_modify_time,note_root)
-        VALUES (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},#{noteParent},
+        INSERT INTO tb_note (user_id,note_id,note_name,note_status,note_type,note_path,note_create_time,note_modify_time,note_root)
+        VALUES (#{userId},#{noteId},#{noteName},#{noteStatus},#{noteType},
         #{notePath},#{noteCreateTime},#{noteModifyTime},#{noteRoot})
     </insert>
 
