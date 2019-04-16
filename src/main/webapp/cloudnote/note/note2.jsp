@@ -142,7 +142,7 @@
                     <span class="hidden-phone">我的文件夹</span>
                 </a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" id="recycleBin">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="micon-lab"></i>
                     <span class="hidden-phone">回收站</span>
@@ -173,6 +173,7 @@
     <input type="hidden" name="noteType" id="noteType" value=""><%--笔记类型   1笔记  2文件夹--%>
     <input type="hidden" name="noteParent" id="noteParent">
     <input type="hidden" name="noteId" id="noteId" value="">
+    <input type="hidden" name="noteContent" id="noteContent" value=""><%--笔记内容--%>
 </form>
 
 

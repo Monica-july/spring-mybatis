@@ -84,50 +84,6 @@
             layer.alert("请填写注册信息");
             return;
         }
-        var flag = "0";
-        var data = '{"userName":"'+$("#userName").val()+'"}';
-        $.ajax({
-            url:basePath+"/user/queryName",
-            type:"post",
-            async:true,
-            data:JSON.parse(data),
-            success:function (data) {
-                flag = data.status;
-            }
-        })
-        alert(flag)
-        if(flag != "1"){
-            layer.alert("该用户名已经注册!")
-            return;
-        }
-        data = '{"userEmail":"'+$("#userEmail").val()+'"}';
-        $.ajax({
-            url:basePath+"/user/queryEmail",
-            type:"post",
-            async:true,
-            data:JSON.parse(data),
-            success:function (data) {
-                flag = data.status;
-            }
-        })
-        if(flag != "1"){
-            layer.alert("该邮箱已经注册!");
-            return;
-        }
-        data = '{"userPhone":"'+$("#userPhone").val()+'"}';
-        $.ajax({
-            url:basePath+"/user/queryPhone",
-            type:"post",
-            async:true,
-            data:JSON.parse(data),
-            success:function (data) {
-                flag = data.status;
-            }
-        })
-        if(flag != "1"){
-            layer.alert("该手机号码已经注册!");
-            return;
-        }
         if($("#register_form").valid()){
             $.ajax({
                 url:basePath+"/user/doregister",
@@ -136,9 +92,12 @@
                 async:true,
                 dataType:"json",
                 success:function (data) {
-                    //注册成功跳转到登录界面
-                    layer.msg("注册成功!即将跳转到登录界面...");
-                    window.location.href = basePath+"/cloudnote/user/login.jsp";
+                    if (data.status != "1"){
+                        layer.alert(data.msg);
+                    }else {
+                        //注册成功跳转到登录界面
+                        window.location.href = basePath+"/user/login";
+                    }
                 }
             });
         }

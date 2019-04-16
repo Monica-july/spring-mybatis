@@ -54,10 +54,29 @@ public class UserService implements IUserService {
      * */
     public JsonResponse  do_register(UserVo userVo) {
         JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = new UserVo();
         //姓名解码
         try {
             //用户名解码
             userVo.setUserName(URLDecoder.decode(userVo.getUserName(),"utf-8"));
+            user = userMapper.queryUserByName(userVo.getUserName());
+            if (user != null){
+                jsonResponse.setMsg("该用户已注册");
+                jsonResponse.setStatus("31");
+                return jsonResponse;
+            }
+            user = userMapper.queryByUserEmail(userVo.getUserEmail());
+            if (user != null){
+                jsonResponse.setMsg("该邮箱已注册");
+                jsonResponse.setStatus("31");
+                return jsonResponse;
+            }
+            user = userMapper.queryByUserPhone(userVo.getUserPhone());
+            if (user != null){
+                jsonResponse.setMsg("该手机号码已注册");
+                jsonResponse.setStatus("31");
+                return jsonResponse;
+            }
             //密码MD5加密
             userVo.setUserPassword(MD5Utils.GetMD5Code(userVo.getUserPassword()));
             String userid = UUID.randomUUID().toString().replaceAll("-","");
@@ -87,17 +106,5 @@ public class UserService implements IUserService {
             e.printStackTrace();
         }
         return jsonResponse;
-    }
-
-    public UserVo queryName(String name) {
-        return userMapper.queryUserByName(name);
-    }
-
-    public UserVo queryEmail(String email) {
-        return userMapper.queryByUserEmail(email);
-    }
-
-    public UserVo queryPhone(String phone) {
-        return userMapper.queryByUserPhone(phone);
     }
 }

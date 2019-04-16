@@ -154,12 +154,15 @@ public class NoteController {
             return jsonResponse;
         }
         //内容展示
-        NoteVo noteVo = noteService.getDetails(fo);
+//        NoteVo noteVo = noteService.getDetails(fo);
         //文件内容读取
-        String path = noteVo.getNotePath();
+//        String path = noteVo.getNotePath();
+
         return jsonResponse;
     }
 
+    @RequestMapping("/delete")
+    @ResponseBody
     public JsonResponse delete(HttpServletRequest request,NoteFo fo){
         JsonResponse jsonResponse = new JsonResponse();
         UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
@@ -169,7 +172,44 @@ public class NoteController {
             return jsonResponse;
         }
         fo.setUserId(user.getUserId());
+        jsonResponse = noteService.delete(fo);
+        return jsonResponse;
+    }
 
+    /**
+     * 回收站
+     * @param request
+     * @return
+     */
+    @RequestMapping("/recycleBin")
+    @ResponseBody
+    public JsonResponse recycleBin(HttpServletRequest request){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        jsonResponse = noteService.recycleBin(user.getUserId());
+        return jsonResponse;
+    }
+
+    /**
+     * 保存文档内容
+     */
+    @ResponseBody
+    @RequestMapping("/save")
+    public JsonResponse save(HttpServletRequest request,NoteFo fo){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        fo.setUserId(user.getUserId());
+        jsonResponse = noteService.save(fo);
         return jsonResponse;
     }
 }
