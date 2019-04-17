@@ -37,6 +37,11 @@
         AND n.note_status = '1' ORDER BY n.note_modify_time DESC limit 0,10
     </select>
 
+    <!--查找文档-->
+    <select id="getNote" resultMap="NoteMap">
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_status = '1' AND n.note_id = #{noteid}
+    </select>
+
     <!--最近修改的一篇文档-->
     <select id="getContent" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userid} AND n.note_type = '1'
@@ -55,15 +60,26 @@
         UPDATE tb_note n SET n.note_status = '0' AND  n.note_modify_time = #{now}
         WHERE n.user_id = #{userid} AND n.note_id = #{noteid}
     </update>
-    
+
+    <!--回收站-->
     <select id="recycleBin" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.note_status = '0' AND n.user_id = #{user_id}
         ORDER BY n.note_modify_time DESC
     </select>
 
-
     <!--查询父节点下文件编号的最大值-->
     <select id="getMaxNoteId" resultType="java.lang.String">
         SELECT MAX(n.note_id) FROM tb_note n WHERE n.user_id = #{userid} AND n.note_id LIKE #{noteparent}
+    </select>
+
+    <!--保存文档-->
+    <update id="saveContent">
+        UPDATE tb_note n SET n.note_content = #{notecontent}
+        WHERE n.user_id = #{userid} AND n.note_id = #{noteid}
+    </update>
+    
+    <select id="getExist" resultMap="NoteMap">
+        SELECT * FROM tb_note n WHERE n.user_id = #{userid}
+        AND n.note_type = #{notetype} AND n.note_id like #{noteid} AND n.note_name = #{notename}
     </select>
 </mapper>

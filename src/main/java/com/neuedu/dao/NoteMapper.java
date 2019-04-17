@@ -72,4 +72,13 @@ public interface NoteMapper {
      * @param notecontent
      */
     void saveContent(@Param("userid")String userid,@Param("noteid")String noteid,@Param("notecontent")String notecontent);
+
+    /**
+     * 查看文件名是否已存在
+     * @param userid
+     * @param noteid
+     * @return
+     */
+    NoteVo getExist(@Param("userid")String userid,@Param("noteid")String noteid,
+                    @Param("notename")String notename,@Param("notetype")String notetype);
 }

@@ -45,8 +45,9 @@ public class NoteService implements INoteService{
     public JsonResponse createNote(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
         NoteVo note = new NoteVo();
-        try {
-            note.setNoteName(new String(fo.getNoteName().getBytes("utf-8"),"ISO-8859-1"));
+//        try {
+//            note.setNoteName(new String(fo.getNoteName().getBytes("iso8859-1"),"gbk"));
+            note.setNoteName(fo.getNoteName());
             note.setNoteType(fo.getNoteType());
             note.setUserId(fo.getUserId());
             note.setNoteStatus("1");
@@ -69,6 +70,12 @@ public class NoteService implements INoteService{
                     break;
                 }
             }
+            NoteVo existnote = noteMapper.getExist(note.getUserId(),noteid,fo.getNoteName(),fo.getNoteType());
+            if (existnote!=null){
+                jsonResponse.setStatus("31");
+                jsonResponse.setMsg("文件名重复");
+                return jsonResponse;
+            }
             //查询父节点下的最大值
             String max = noteMapper.getMaxNoteId(note.getUserId(),noteid);
             String id = String.valueOf(Integer.valueOf(max.substring(idindex,idindex+3))+1);
@@ -83,9 +90,9 @@ public class NoteService implements INoteService{
             note.setNoteId(max);
             //创建文件、文件夹
             noteMapper.createNote(note);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         jsonResponse.setMsg("创建成功");
         jsonResponse.setStatus("1");
         jsonResponse.setData(note);
@@ -197,12 +204,12 @@ public class NoteService implements INoteService{
      */
     public JsonResponse save(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
-        try {
-            fo.setNoteContent(new String(fo.getNoteContent().getBytes("utf-8"),"iso-8859-1"));
+//        try {
+//            fo.setNoteContent(new String(fo.getNoteContent().getBytes("iso8859-1"),"gbk"));
             noteMapper.saveContent(fo.getUserId(),fo.getNoteId(),fo.getNoteContent());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
         jsonResponse.setMsg("保存成功");
         jsonResponse.setStatus("1");

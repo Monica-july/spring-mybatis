@@ -60,6 +60,9 @@
         .z0_qr{
             text-align:center;
         }
+        #return{
+            margin-bottom: 10px;
+        }
     </style>
 <body>
 <form id="form1">
@@ -86,8 +89,8 @@
             <div class="row-fluid">
                 <div class="span2">
                     <!-- custom button block -->
+                    <a class="btn" id="return" href="#">返回上一层</a>
                     <div class="button-action" id="list"><%--文件夹/文件列表--%>
-
                     </div>
                     <!-- ./custom button block -->
                 </div>
@@ -174,6 +177,7 @@
     <input type="hidden" name="noteParent" id="noteParent">
     <input type="hidden" name="noteId" id="noteId" value="">
     <input type="hidden" name="noteContent" id="noteContent" value=""><%--笔记内容--%>
+    <input type="hidden" id="upper" value=""><%--上一层noteid--%>
 </form>
 
 
