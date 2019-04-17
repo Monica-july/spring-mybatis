@@ -7,6 +7,7 @@ public class NoteFo {
     private String noteName;//名称
     private String noteOldName;//原名称
     private String noteType;//类别   1文件  2文件夹
+    private String noteContent;
 
     public String getUserId() {
         return userId;
@@ -54,5 +55,13 @@ public class NoteFo {
 
     public void setNoteOldName(String noteOldName) {
         this.noteOldName = noteOldName;
+    }
+
+    public String getNoteContent() {
+        return noteContent;
+    }
+
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
     }
 }

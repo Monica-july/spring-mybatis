@@ -50,47 +50,4 @@ public class UserController {
         JsonResponse jsonResponse =  userService.do_register(userVo);
         return jsonResponse;
     }
-
-    @ResponseBody
-    @RequestMapping("/queryName")
-    public JsonResponse queryName(String userName){
-        JsonResponse jsonResponse = new JsonResponse();
-        UserVo userVo = userService.queryName(userName);
-        if (userVo != null){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("用户名已存在");
-        }else {
-            jsonResponse.setStatus("1");
-        }
-        return jsonResponse;
-    }
-
-    @ResponseBody
-    @RequestMapping("/queryEmail")
-    public JsonResponse queryEmail(String userEmail){
-        JsonResponse jsonResponse = new JsonResponse();
-        UserVo userVo = userService.queryEmail(userEmail);
-        if (userVo != null){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("用户邮箱已存在");
-        }else {
-            jsonResponse.setStatus("1");
-        }
-        return jsonResponse;
-    }
-
-
-    @ResponseBody
-    @RequestMapping("/queryPhone")
-    public JsonResponse queryPhone(String userPhone){
-        JsonResponse jsonResponse = new JsonResponse();
-        UserVo userVo = userService.queryPhone(userPhone);
-        if (userVo != null){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("用户电话已存在");
-        }else {
-            jsonResponse.setStatus("1");
-        }
-        return jsonResponse;
-    }
 }

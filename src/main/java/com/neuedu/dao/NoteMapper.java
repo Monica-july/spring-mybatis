@@ -19,7 +19,7 @@ public interface NoteMapper {
     /**
      * 查询父节点路径
      * */
-    String getParentPath(String parentid);
+    String getParentPath(@Param("userid") String userid,@Param("parentid") String parentid);
 
     /**
      * 最近文件
@@ -39,7 +39,7 @@ public interface NoteMapper {
     /**
      * 加载左侧下一层
      * */
-    List<NoteVo> getTree(@Param("userid") String userid, @Param("noteparent") String noteparent);
+    List<NoteVo> getTree(@Param("userid") String userid, @Param("noteparent") String noteparent, @Param("noteid") String noteid);
 
     NoteVo getDetails(@Param("userid") String userid,@Param("noteid") String noteid);
 
@@ -50,4 +50,18 @@ public interface NoteMapper {
 
 
     String getMaxNoteId(@Param("userid") String userid,@Param("noteparent")String noteparent);
+
+    /**
+     * 置为无效
+     * @param userid 用户
+     * @param noteid 笔记
+     */
+    void delete(@Param("userid") String userid,@Param("noteid")String noteid,@Param("now")String now);
+
+    /**
+     * 回收站
+     * @param user_id
+     * @return
+     */
+    List<NoteVo> recycleBin(String user_id);
 }

@@ -16,8 +16,4 @@ public interface IUserService {
      * 注册
      * */
     JsonResponse do_register(UserVo userVo);
-
-    UserVo queryName(String name);
-    UserVo queryEmail(String email);
-    UserVo queryPhone(String phone);
 }
