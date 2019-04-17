@@ -10,7 +10,7 @@ public class NoteVo {
     private String noteCreateTime;//笔记创建时间
     private String noteModifyTime;//笔记修改时间
     private String noteRoot;//是否为根节点
-
+    private String noteContent;//内容
     public String getUserId() {
         return userId;
     }
@@ -81,5 +81,13 @@ public class NoteVo {
 
     public void setNoteRoot(String noteRoot) {
         this.noteRoot = noteRoot;
+    }
+
+    public String getNoteContent() {
+        return noteContent;
+    }
+
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
     }
 }

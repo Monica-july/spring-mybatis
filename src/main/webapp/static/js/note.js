@@ -100,7 +100,7 @@ function right(e) {
         //执行删除操作
         layer.confirm("删除该文件？",{btn:['确定','取消'],title:"提示"},function () {
             $.ajax({
-                url:basePath+"/note/delete",
+                url:basePath+"/note/invalid",
                 type:"post",
                 data:$("#form1").serializeArray(),
                 async:true,
@@ -125,8 +125,8 @@ function loadleft() {
         type:"post",
         dataType:"json",
         success:function (data) {
-            if (data.data.data != ""){
-                var vbs = data.data.data;
+            if (data.data != ""){
+                var vbs = data.data;
                 var $input = "";
                 for(var i=0 ; i<vbs.length ; i++){
                     if(vbs[i].noteType == "1"){  //笔记
@@ -138,10 +138,10 @@ function loadleft() {
                 $("#list").empty();
                 var $list = $("#list");
                 $list.append($input);
-                //文件内容展示
-                $(".title").text(vbs[0].noteName);
-                $(".redactor_editor").html(data.data.content);
                 if (vbs[0].noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs[0].noteName);
+                    $(".redactor_editor").html(vbs[0].noteContent);
                     $("#noteId").val(vbs[0].noteId);
                 }
             }else {
@@ -177,6 +177,10 @@ $("#lately").click(function () {
                 }
                 var $list = $("#list");
                 $list.append($input);
+                //文件内容展示
+                $(".title").text(vbs[0].noteName);
+                $(".redactor_editor").html(vbs[0].noteContent);
+                $("#noteId").val(vbs[0].noteId);
             }else {
                 $("#list").empty();
             }
@@ -207,6 +211,12 @@ $("#recycleBin").click(function () {
                 $("#list").empty();
                 var $list = $("#list");
                 $list.append($input);
+                if (vbs[0].noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs[0].noteName);
+                    $(".redactor_editor").html(vbs[0].noteContent);
+                    $("#noteId").val(vbs[0].noteId);
+                }
             }else {
                 $("#list").empty();
             }
@@ -244,7 +254,7 @@ $("#save").click(function () {
         data:$("#form1").serializeArray(),
         dataType:"json",
         success:function (data) {
-
+            alert(data.msg);
         }
     })
 })

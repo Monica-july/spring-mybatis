@@ -25,16 +25,19 @@ public interface INoteService {
     JsonResponse reName(NoteFo fo);
 
     JsonResponse getTree(NoteFo fo);
+
     /**
-     * 点击文件 加载展示笔记内容
-     * */
-    JsonResponse getDetails(NoteVo fo);
+     * 点击文档展示内容
+     * @param fo
+     * @return
+     */
+    JsonResponse getNote(NoteFo fo);
 
     /**
      * 删除文件
      * @param fo
      */
-    JsonResponse delete(NoteFo fo);
+    JsonResponse invalid(NoteFo fo);
 
     /**
      * 回收站

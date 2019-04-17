@@ -34,18 +34,7 @@ public class NoteService implements INoteService{
     public JsonResponse getRootKids(String userId) {
         JsonResponse jsonResponse = new JsonResponse();
         List<NoteVo> notes = noteMapper.getRootKids(userId);
-        if (notes == null || notes.size() == 0){
-            jsonResponse.setMsg("未查询到数据");
-        }else {
-            Map<String,Object> map = new HashMap<String, Object>();
-            if (notes.get(0).getNoteType().equals("1")){
-                JsonResponse json = this.getDetails(notes.get(0));
-                map.put("content",json.getData());
-            }
-            map.put("data",notes);
-            jsonResponse.setData(map);
-            return jsonResponse;
-        }
+        jsonResponse.setData(notes);
         jsonResponse.setStatus("1");
         return jsonResponse;
     }
@@ -53,68 +42,49 @@ public class NoteService implements INoteService{
     /**
      * 新建
      * */
-    public JsonResponse createNote(NoteFo fo) throws IOException {
+    public JsonResponse createNote(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
         NoteVo note = new NoteVo();
-        note.setNoteName(fo.getNoteName());
-        note.setNoteType(fo.getNoteType());
-        note.setUserId(fo.getUserId());
-        note.setNoteStatus("1");
-        note.setNoteCreateTime(StringUtil.getNow());
-        note.setNoteModifyTime(StringUtil.getNow());
-        note.setNoteRoot("0");
-        String noteid = fo.getNoteParent();
-        //如果父节点为空  则默认创建根节点下的文件
-        if (StringUtil.isEmpty(fo.getNoteParent())){
-            noteid = noteMapper.getRootNoteId(note.getUserId());
-        }
-        String note_id = noteid;
-        int idindex = 0;
-        for (int i=0 ; i<noteid.length() ; i=i+3){
-            if (noteid.substring(i,i+3).equals("000")){
-                noteid = noteid.substring(0,i)+"___";
-                for(int j=0 ; j<18-i-3 ; j=j+3){
-                    noteid = noteid+"000";
-                }
-                idindex = i;
-                break;
+        try {
+            note.setNoteName(new String(fo.getNoteName().getBytes("utf-8"),"ISO-8859-1"));
+            note.setNoteType(fo.getNoteType());
+            note.setUserId(fo.getUserId());
+            note.setNoteStatus("1");
+            note.setNoteCreateTime(StringUtil.getNow());
+            note.setNoteModifyTime(StringUtil.getNow());
+            note.setNoteRoot("0");
+            String noteid = fo.getNoteParent();
+            //如果父节点为空  则默认创建根节点下的文件
+            if (StringUtil.isEmpty(fo.getNoteParent())){
+                noteid = noteMapper.getRootNoteId(note.getUserId());
             }
-        }
-        //查询父节点下的最大值
-        String max = noteMapper.getMaxNoteId(note.getUserId(),noteid);
-        String id = String.valueOf(Integer.valueOf(max.substring(idindex,idindex+3))+1);
-        String a1 = max.substring(0,idindex);
-        String a2 = max.substring(idindex+3,max.length());
-        if (id.length()==1){
-            id = "00"+id;
-        }else if (id.length()==2){
-            id = "0"+id;
-        }
-        max = a1+ id + a2;
-        note.setNoteId(max);
-        //查询父节点路径
-        String parentpath = noteMapper.getParentPath(fo.getUserId(),note_id);
-        if (StringUtil.isEmpty(parentpath)){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("父节点不存在");
-            return jsonResponse;
-        }
-        if (note.getNoteType().equals("1")){
-            note.setNotePath(parentpath+ File.separator+note.getNoteName()+".docx");
-        }else {
-            note.setNotePath(parentpath+ File.separator+note.getNoteName());
-        }
-        //创建文件、文件夹
-        noteMapper.createNote(note);
-        String path = note.getNotePath();
-        File file = new File(path);
-        if (!file.exists()){
-            file.getParentFile().mkdirs();
-        }
-        if (note.getNoteType().equals("1")){
-            file.createNewFile();
-        }else {
-            file.mkdirs();
+            int idindex = 0;
+            for (int i=0 ; i<noteid.length() ; i=i+3){
+                if (noteid.substring(i,i+3).equals("000")){
+                    noteid = noteid.substring(0,i)+"___";
+                    for(int j=0 ; j<18-i-3 ; j=j+3){
+                        noteid = noteid+"000";
+                    }
+                    idindex = i;
+                    break;
+                }
+            }
+            //查询父节点下的最大值
+            String max = noteMapper.getMaxNoteId(note.getUserId(),noteid);
+            String id = String.valueOf(Integer.valueOf(max.substring(idindex,idindex+3))+1);
+            String a1 = max.substring(0,idindex);
+            String a2 = max.substring(idindex+3,max.length());
+            if (id.length()==1){
+                id = "00"+id;
+            }else if (id.length()==2){
+                id = "0"+id;
+            }
+            max = a1+ id + a2;
+            note.setNoteId(max);
+            //创建文件、文件夹
+            noteMapper.createNote(note);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
         jsonResponse.setMsg("创建成功");
         jsonResponse.setStatus("1");
@@ -128,14 +98,9 @@ public class NoteService implements INoteService{
     public JsonResponse getNotes(String userid) {
         JsonResponse jsonResponse = new JsonResponse();
         List<NoteVo> notes = noteMapper.getNotes(userid);
-        if (notes == null && notes.size()==0){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("无数据");
-        }else {
-            jsonResponse.setStatus("1");
-            jsonResponse.setMsg("查询成功");
-            jsonResponse.setData(notes);
-        }
+        jsonResponse.setStatus("1");
+        jsonResponse.setMsg("查询成功");
+        jsonResponse.setData(notes);
         return jsonResponse;
     }
 
@@ -185,67 +150,27 @@ public class NoteService implements INoteService{
     }
 
     /**
-     * 笔记内容
-     * */
-    public JsonResponse getDetails(NoteVo fo) {
+     * 点击文档展示内容
+     * @param fo
+     * @return
+     */
+    public JsonResponse getNote(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
-        NoteVo noteVo = noteMapper.getDetails(fo.getUserId(),fo.getNoteId());
-        if (noteVo == null){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("文件不存在");
-            return jsonResponse;
-        }
-        String path = noteVo.getNotePath();
-        String buffer = null;
-        try {
-            if (path.endsWith(".doc")) {
-                InputStream is = null;
-                is = new FileInputStream(new File(path));
-                WordExtractor ex = new WordExtractor(is);
-                buffer = ex.getText();
-                is.close();
-            } else if (path.endsWith(".docx")) {
-                OPCPackage opcPackage = POIXMLDocument.openPackage(path);
-                POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
-                buffer = extractor.getText();
-                extractor.close();
-            } else {
-                jsonResponse.setStatus("31");
-                jsonResponse.setMsg("文件异常");
-                return jsonResponse;
-            }
-            jsonResponse.setData(buffer);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (XmlException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (EmptyFileException e){
-            buffer = "";
-        }catch (OpenXML4JException e) {
-            e.printStackTrace();
-        }
+        NoteVo noteVo = noteMapper.getNote(fo.getUserId(),fo.getNoteId());
+        jsonResponse.setStatus("1");
+        jsonResponse.setMsg("查询成功");
+        jsonResponse.setData(noteVo);
         return jsonResponse;
     }
 
     /**
-     * 文件置为无效文件
+     * 置为无效
      * @param fo
      */
-    public JsonResponse delete(NoteFo fo) {
+    public JsonResponse invalid(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
-//        //先删除文件
-//        String path = noteMapper.getParentPath(fo.getUserId(),fo.getNoteId());
-//        File file = new File(path);
-//        if (!file.exists()){
-//            jsonResponse.setStatus("31");
-//            jsonResponse.setMsg("文件路径不存在，删除失败");
-//            return jsonResponse;
-//        }
-//        deleteFile(file);
         //将数据状态修改未无效
-        noteMapper.delete(fo.getUserId(),fo.getNoteId(),StringUtil.getNow());
+        noteMapper.invalid(fo.getUserId(),fo.getNoteId(),StringUtil.getNow());
         jsonResponse.setStatus("1");
         jsonResponse.setMsg("删除成功");
         return jsonResponse;
@@ -265,30 +190,20 @@ public class NoteService implements INoteService{
         return jsonResponse;
     }
 
+    /**
+     * 保存
+     * @param fo
+     * @return
+     */
     public JsonResponse save(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
-        /**
-         * 获取文件路径
-         */
-        String path = noteMapper.getParentPath(fo.getUserId(),fo.getNoteId());
-        File file = new File(path);
-        if (!file.exists()){
-            jsonResponse.setStatus("31");
-            jsonResponse.setMsg("文件异常");
-            return jsonResponse;
-        }
         try {
-            if (file.isFile()) {
-                FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fileWriter);
-                bw.write(fo.getNoteContent());
-                bw.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            fo.setNoteContent(new String(fo.getNoteContent().getBytes("utf-8"),"iso-8859-1"));
+            noteMapper.saveContent(fo.getUserId(),fo.getNoteId(),fo.getNoteContent());
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         jsonResponse.setMsg("保存成功");
         jsonResponse.setStatus("1");
         return jsonResponse;

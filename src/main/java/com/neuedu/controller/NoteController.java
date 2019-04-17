@@ -144,26 +144,13 @@ public class NoteController {
 
     /**
      * 点击文档展示内容
-     * */
-    public JsonResponse getDetails(HttpServletRequest request,NoteFo fo){
-        JsonResponse jsonResponse = new JsonResponse();
-        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
-        if (user == null){
-            jsonResponse.setMsg("未检测到登录状态");
-            jsonResponse.setStatus("31");
-            return jsonResponse;
-        }
-        //内容展示
-//        NoteVo noteVo = noteService.getDetails(fo);
-        //文件内容读取
-//        String path = noteVo.getNotePath();
-
-        return jsonResponse;
-    }
-
-    @RequestMapping("/delete")
+     * @param request
+     * @param fo
+     * @return
+     */
     @ResponseBody
-    public JsonResponse delete(HttpServletRequest request,NoteFo fo){
+    @RequestMapping("/ncontent")
+    public JsonResponse getNContent(HttpServletRequest request,NoteFo fo){
         JsonResponse jsonResponse = new JsonResponse();
         UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
         if (user == null){
@@ -172,7 +159,28 @@ public class NoteController {
             return jsonResponse;
         }
         fo.setUserId(user.getUserId());
-        jsonResponse = noteService.delete(fo);
+        jsonResponse = noteService.getNote(fo);
+        return jsonResponse;
+    }
+
+    /**
+     * 将文件置为无效
+     * @param request
+     * @param fo
+     * @return
+     */
+    @RequestMapping("/invalid")
+    @ResponseBody
+    public JsonResponse invalid(HttpServletRequest request,NoteFo fo){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        fo.setUserId(user.getUserId());
+        jsonResponse = noteService.invalid(fo);
         return jsonResponse;
     }
 
