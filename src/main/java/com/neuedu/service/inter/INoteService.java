@@ -28,5 +28,25 @@ public interface INoteService {
     /**
      * 点击文件 加载展示笔记内容
      * */
-    NoteVo getDetails(NoteFo fo);
+    JsonResponse getDetails(NoteVo fo);
+
+    /**
+     * 删除文件
+     * @param fo
+     */
+    JsonResponse delete(NoteFo fo);
+
+    /**
+     * 回收站
+     * @param userid
+     * @return
+     */
+    JsonResponse recycleBin(String userid);
+
+    /**
+     * 笔记存储
+     * @param fo
+     * @return
+     */
+    JsonResponse save(NoteFo fo);
 }

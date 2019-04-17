@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/logreg.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/validate/css/new_file.css">
     <script src="<%=request.getContextPath()%>/static/js/jquery-3.3.1.js"></script>
-    <script src="<%=request.getContextPath()%>/static/js/user.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-extends.js"></script>
     <script src="<%=request.getContextPath()%>/static/validate/js/validate-rules.js"></script>
@@ -79,22 +78,13 @@
 </body>
 <script>
     var basePath = "<%=request.getContextPath()%>"
-    var qzn = 0;//权重
-    var qze = 0;
-    var qzp = 0;
     //注册
     $("#reg_btn").click(function () {
-        var reg = $("#register_form").val();
-        if (reg == "" || reg == null || reg ==undefined){
-            layer.alert("请填写用户注册信息!");
+        if($("#userName").val =="" || $("#userEmail").val()=="" || $("#userPassword").val=="" || $("#userPhone").val() == ""){
+            layer.alert("请填写注册信息");
             return;
         }
-        // if($("#register_form").valid()){
-            if ((qzn+qze+qzp)!=0){
-                layer.alert("请确认填写信息!");
-                return;
-            }
-
+        if($("#register_form").valid()){
             $.ajax({
                 url:basePath+"/user/doregister",
                 type:"post",
@@ -102,12 +92,15 @@
                 async:true,
                 dataType:"json",
                 success:function (data) {
-                    //注册成功跳转到登录界面
-                    layer.msg("注册成功!即将跳转到登录界面...");
-                    window.location.href = basePath+"/user/login";
+                    if (data.status != "1"){
+                        layer.alert(data.msg);
+                    }else {
+                        //注册成功跳转到登录界面
+                        window.location.href = basePath+"/user/login";
+                    }
                 }
             });
-        // }
+        }
     });
 </script>
 </html>

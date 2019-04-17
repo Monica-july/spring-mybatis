@@ -5,11 +5,9 @@ $(document).ready(function () {
                 space:true,
                 isContainsSpecialChar:true,//特殊字符
                 maxlength:64,
-                nameIsExist:true,
             },
             userPassword:{
                 space:true,
-                pWd:true,
                 maxlength:10,
                 minlength:6
             },
@@ -19,7 +17,7 @@ $(document).ready(function () {
             },
             userPhone:{
                 space:true,
-                // mobile:true,
+                mobile:true,
             }
         },
         messages:{
@@ -27,11 +25,9 @@ $(document).ready(function () {
                 space:"用户名不能包含空格或null",
                 isContainsSpecialChar:"用户名不能包含特殊字符",//特殊字符
                 maxlength:"用户名最大长度为64位",
-                nameIsExist:"用户名已注册",
             },
             userPassword:{
                 space:"密码不能包含空格或null",
-                pWd:"密码包含非法字符",
                 maxlength:"密码最大长度为10位",
                 minlength:"密码最小长度为6位"
             },
@@ -41,7 +37,7 @@ $(document).ready(function () {
             },
             userPhone:{
                 space:"手机号码不能包含空格或null",
-                // mobile:"手机号码格式错误",
+                mobile:"手机号码格式错误",
             }
         }
     })
