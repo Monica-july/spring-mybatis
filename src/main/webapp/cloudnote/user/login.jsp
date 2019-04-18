@@ -95,5 +95,8 @@
             layer.alert("请确认用户名密码正确性!")
         }
     })
+    $("#regiser_btn").click(function () {
+        window.location.href = basePath+"/user/register";
+    })
 </script>
 </html>

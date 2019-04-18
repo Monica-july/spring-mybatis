@@ -4,7 +4,7 @@
 $("#c_note").click(function () {
     $("#czmc").text("新建笔记");
     $(".z0_ymc").css("display","none");
-    $(".z0_xz").css("display","block");
+    $("#create").css("display","block");
     //设置文件信息
     $("#noteType").val("1");
 });
@@ -12,7 +12,7 @@ $("#c_note").click(function () {
 $("#c_file").click(function () {
     $("#czmc").text("新建文件夹");
     $(".z0_ymc").css("display","none");
-    $(".z0_xz").css("display","block");
+    $("#create").css("display","block");
     //设置文件信息
     $("#noteType").val("2");
 })
@@ -31,18 +31,28 @@ function confirm() {
         async:false,
         data:$("#form1").serializeArray(),
         success:function (data) {
-            var vbs = data.data;
-            //关闭弹框
-            cancel();
-            //刷新页面
-            var $list = $("#list");
-            var $input = "";
-            if(vbs.noteType == "1"){  //笔记
-                $input = '<a class="btn btn-large btn-primary" onmousedown="right(event)" href="#">'+data.data.noteName+'<input type="hidden" value="'+data.data.noteId+'"></a>'
-            }else {      //文件
-                $input = '<a class="btn btn-large btn-warning" onmousedown="right(event)" href="#">'+data.data.noteName+'<input type="hidden" value="'+data.data.noteId+'"></a>';
+            if (data.status == "1"){
+                var vbs = data.data;
+                //关闭弹框
+                cancel();
+                //刷新页面
+                var $list = $("#list");
+                var $input = "";
+                if(vbs.noteType == "1"){  //笔记
+                    $input = '<a class="btn btn-large btn-primary" href="#">'+data.data.noteName+'<input type="hidden" value="'+data.data.noteId+';"></a>'
+                }else {      //文件
+                    $input = '<a class="btn btn-large btn-warning" href="#">'+data.data.noteName+'<input type="hidden" value="'+data.data.noteId+'"></a>';
+                }
+                $list.append($input);
+                if (vbs.noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs.noteName);
+                    $(".redactor_editor").html(vbs.noteContent);
+                    $("#noteId").val(vbs.noteId);
+                }
+            }else {
+                layer.alert(data.msg);
             }
-            $list.append($input);
         }
     })
 }
@@ -56,9 +66,33 @@ function cancel() {
 /**
  * 点击文件名加载下一层
  * */
-$(document).on('click','.file',function () {
-    var id = $(this).find("input").val();
-    $("#noteParent").val(id);
+// $(document).on('click','.btn-large',function () {
+//     var id = $(this).find("input").val();
+//     var endstr = id.substring(id.length-1,id.length);
+//     if (";" == endstr){
+//         id = id.substring(0,id.length-1);
+//         $("#noteId").val(id);
+//         $.ajax({
+//             url:basePath+"/note/ncontent",
+//             type:"post",
+//             data:$("#form1").serializeArray(),
+//             dataType:"json",
+//             success:function (data) {
+//                 if (data.data){
+//                     var vbs = data.data;
+//                     //文件内容展示
+//                     $(".title").text(vbs.noteName);
+//                     $(".redactor_editor").html(vbs.noteContent);
+//                     $("#noteId").val(vbs.noteId);
+//                 }
+//             }
+//         })
+//     }else {
+//         $("#noteParent").val(id);
+//         getTree();
+//     }
+// })
+function getTree() {
     $.ajax({
         url:basePath+"/note/gettree",
         type:"post",
@@ -70,51 +104,27 @@ $(document).on('click','.file',function () {
                 var $input = "";
                 for(var i=0 ; i<vbs.length ; i++){
                     if(vbs[i].noteType == "1"){  //笔记
-                        $input += '<a class="btn btn-large btn-primary" onmousedown="right(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>'
+                        $input += '<a class="btn btn-large btn-primary" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+';"></a>'
                     }else {      //文件
-                        $input += '<a class="btn btn-large btn-warning file" onmousedown="right(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
+                        $input += '<a class="btn btn-large btn-warning" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
                     }
                 }
                 $("#list").empty();
                 var $list = $("#list");
                 $list.append($input);
+                if (vbs[0].noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs[0].noteName);
+                    $(".redactor_editor").html(vbs[0].noteContent);
+                    $("#noteId").val(vbs[0].noteId);
+                }
+                $("#noteParent").val($("#upper").val())
             }else {
                 $("#list").empty();
             }
         }
     })
-})
-
-/*
-* 右击文件弹框 删除
-* */
-function right(e) {
-    if(3 == e.which){
-        //取消浏览器自带右击事件
-        document.oncontextmenu = function(e){
-            return false;
-        }
-        var id = $(this).find().val();
-        alert(id)
-        $("#noteId").val("001002002000000000");
-        //执行删除操作
-        layer.confirm("删除该文件？",{btn:['确定','取消'],title:"提示"},function () {
-            $.ajax({
-                url:basePath+"/note/delete",
-                type:"post",
-                data:$("#form1").serializeArray(),
-                async:true,
-                success:function (data) {
-                    layer.closeAll();
-                    alert(data.data.msg);
-                    //页面刷新
-
-                }
-            })
-        })
-    }
 }
-
 
 /**
  * 加载我的文件夹下文件
@@ -125,23 +135,25 @@ function loadleft() {
         type:"post",
         dataType:"json",
         success:function (data) {
-            if (data.data.data != ""){
-                var vbs = data.data.data;
+            $("#upper").val("001000000000000000");
+            $("#noteParent").val($("#upper").val());
+            if (data.data != ""){
+                var vbs = data.data;
                 var $input = "";
                 for(var i=0 ; i<vbs.length ; i++){
                     if(vbs[i].noteType == "1"){  //笔记
-                        $input += '<a class="btn btn-large btn-primary" onmousedown="right(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>'
+                        $input += '<a class="btn btn-large btn-primary" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+';"></a>'
                     }else {      //文件
-                        $input += '<a class="btn btn-large btn-warning file" onmousedown="right(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
+                        $input += '<a class="btn btn-large btn-warning" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
                     }
                 }
                 $("#list").empty();
                 var $list = $("#list");
                 $list.append($input);
-                //文件内容展示
-                $(".title").text(vbs[0].noteName);
-                $(".redactor_editor").html(data.data.content);
                 if (vbs[0].noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs[0].noteName);
+                    $(".redactor_editor").html(vbs[0].noteContent);
                     $("#noteId").val(vbs[0].noteId);
                 }
             }else {
@@ -173,10 +185,14 @@ $("#lately").click(function () {
                 var vbs = data.data;
                 var $input = "";
                 for(var i=0 ; i<vbs.length ; i++){
-                    $input += '<a class="btn btn-large btn-primary" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>'
+                    $input += '<a class="btn btn-large btn-primary" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+';"></a>'
                 }
                 var $list = $("#list");
                 $list.append($input);
+                //文件内容展示
+                $(".title").text(vbs[0].noteName);
+                $(".redactor_editor").html(vbs[0].noteContent);
+                $("#noteId").val(vbs[0].noteId);
             }else {
                 $("#list").empty();
             }
@@ -199,14 +215,20 @@ $("#recycleBin").click(function () {
                 var $input = "";
                 for(var i=0 ; i<vbs.length ; i++){
                     if(vbs[i].noteType == "1"){  //笔记
-                        $input += '<a class="btn btn-large btn-primary" onmousedown="recover_delete(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>'
+                        $input += '<a class="btn btn-large btn-primary" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>'
                     }else {      //文件
-                        $input += '<a class="btn btn-large btn-warning file" onmousedown="recover_delete(event)"  href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
+                        $input += '<a class="btn btn-large btn-warning" href="#">'+vbs[i].noteName+'<input type="hidden" value="'+vbs[i].noteId+'"></a>';
                     }
                 }
                 $("#list").empty();
                 var $list = $("#list");
                 $list.append($input);
+                if (vbs[0].noteType == "1"){
+                    //文件内容展示
+                    $(".title").text(vbs[0].noteName);
+                    $(".redactor_editor").html(vbs[0].noteContent);
+                    $("#noteId").val(vbs[0].noteId);
+                }
             }else {
                 $("#list").empty();
             }
@@ -230,6 +252,75 @@ function recover_delete(e) {
 
     }
 }
+/*
+* 右击文件弹框 删除
+* */
+function right_delete(e) {
+    if(3 == e.which){
+        //取消浏览器自带右击事件
+        document.oncontextmenu = function(e){
+            return false;
+        }
+        var id = $(this).find().val();
+        alert(id)
+        $("#noteId").val("001002002000000000");
+        //执行删除操作
+        layer.confirm("删除该文件？",{btn:['确定','取消'],title:"提示"},function () {
+            $.ajax({
+                url:basePath+"/note/invalid",
+                type:"post",
+                data:$("#form1").serializeArray(),
+                async:true,
+                success:function (data) {
+                    layer.closeAll();
+                    alert(data.data.msg);
+                    //页面刷新
+
+                }
+            })
+        })
+    }
+}
+
+/**
+ * 鼠标单击  鼠标双击
+ */
+$(document).delegate(".btn-large",'mousedown', function (e) {
+    e.preventDefault();
+    var id = $(this).find("input").val();
+    //点击
+    if(e.button == 1){
+        var endstr = id.substring(id.length-1,id.length);
+        if (";" == endstr){
+            id = id.substring(0,id.length-1);
+            $("#noteId").val(id);
+            $.ajax({
+                url:basePath+"/note/ncontent",
+                type:"post",
+                data:$("#form1").serializeArray(),
+                dataType:"json",
+                success:function (data) {
+                    if (data.data){
+                        var vbs = data.data;
+                        //文件内容展示
+                        $(".title").text(vbs.noteName);
+                        $(".redactor_editor").html(vbs.noteContent);
+                        $("#noteId").val(vbs.noteId);
+                    }
+                }
+            })
+        }else {
+            $("#noteParent").val(id);
+            getTree();
+        }
+    }else if(e.button == 2){  //右击
+        var endstr = id.substring(id.length-1,id.length);
+        if (";" == endstr){
+            id = id.substring(0,id.length-1);
+        }
+        //弹出窗  重命名  删除   判断是不是回收站下   回收站弹出  恢复  永久删除
+    }
+});
 
 /**
  * 点击保存
@@ -237,14 +328,21 @@ function recover_delete(e) {
 $("#save").click(function () {
     var content = $(".redactor_editor").html();
     $("#noteContent").val(content);
-    alert($("#noteContent").val());
     $.ajax({
         url:basePath+"/note/save",
         type:"post",
         data:$("#form1").serializeArray(),
+        async:true,
         dataType:"json",
         success:function (data) {
-
+            alert(data.msg);
         }
     })
+})
+
+/**
+ * 返回上一层
+ */
+$("#return").click(function () {
+    getTree();
 })
