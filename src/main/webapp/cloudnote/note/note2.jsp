@@ -154,7 +154,7 @@
         </ul>
         <!-- end sidebar -->
     </div>
-    <div class="z0_xz">
+    <div class="z0_xz" id="create">
         <p class="z0_topic" id="czmc" ></p>
         <div class="z0_ymc">
             <span  id="bmmc">原文件名</span>
@@ -171,6 +171,21 @@
         <div class="z0_qr">
             <input type="button" class="btn btn-flat btn-primary" value="确认" onclick="confirm()">
             <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="cancel()">
+        </div>
+    </div>
+
+    <div class="z0_xz" id="popup_a">
+        <div class="z0_qr" id="a">
+            <input type="button" class="btn btn-flat btn-primary" value="重命名" onclick="">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="删除" onclick="">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="">
+        </div>
+    </div>
+    <div class="z0_xz" id="popup_b">
+        <div class="z0_qr" id="b">
+            <input type="button" class="btn btn-flat btn-primary" value="恢复文件" onclick="confirm()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="永久删除" onclick="cancel()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="">
         </div>
     </div>
     <input type="hidden" name="noteType" id="noteType" value=""><%--笔记类型   1笔记  2文件夹--%>
