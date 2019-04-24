@@ -34,6 +34,13 @@ public interface INoteService {
     JsonResponse getNote(NoteFo fo);
 
     /**
+     * 永久删除
+     * @param fo
+     * @return
+     */
+    JsonResponse delete1(NoteFo fo);
+
+    /**
      * 删除文件
      * @param fo
      */
@@ -52,4 +59,9 @@ public interface INoteService {
      * @return
      */
     JsonResponse save(NoteFo fo);
+
+    /**
+     * 笔记回复
+     */
+    JsonResponse recover(NoteFo fo);
 }

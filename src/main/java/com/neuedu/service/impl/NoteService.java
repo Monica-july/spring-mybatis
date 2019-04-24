@@ -170,6 +170,14 @@ public class NoteService implements INoteService{
         return jsonResponse;
     }
 
+    public JsonResponse delete1(NoteFo fo) {
+        JsonResponse jsonResponse = new JsonResponse();
+        noteMapper.delete1(fo.getUserId(),fo.getNoteId());
+        jsonResponse.setStatus("1");
+        jsonResponse.setMsg("删除成功");
+        return jsonResponse;
+    }
+
     /**
      * 置为无效
      * @param fo
@@ -204,14 +212,16 @@ public class NoteService implements INoteService{
      */
     public JsonResponse save(NoteFo fo) {
         JsonResponse jsonResponse = new JsonResponse();
-//        try {
-//            fo.setNoteContent(new String(fo.getNoteContent().getBytes("iso8859-1"),"gbk"));
-            noteMapper.saveContent(fo.getUserId(),fo.getNoteId(),fo.getNoteContent());
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-
+        noteMapper.saveContent(fo.getUserId(),fo.getNoteId(),fo.getNoteContent());
         jsonResponse.setMsg("保存成功");
+        jsonResponse.setStatus("1");
+        return jsonResponse;
+    }
+
+    public JsonResponse recover(NoteFo fo) {
+        JsonResponse jsonResponse = new JsonResponse();
+        noteMapper.recover(fo.getUserId(),fo.getNoteId(),StringUtil.getNow());
+        jsonResponse.setMsg("恢复成功");
         jsonResponse.setStatus("1");
         return jsonResponse;
     }

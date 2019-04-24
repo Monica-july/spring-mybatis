@@ -18,6 +18,7 @@
     <select id="getRootKids" resultMap="NoteMap">
         SELECT * FROM tb_note n WHERE n.user_id = #{userId}
         AND n.note_id LIKE '001___000000000000' AND  n.note_id != '001000000000000000'
+        AND n.note_status = '1'
         ORDER BY n.note_modify_time DESC
     </select>
 
@@ -82,4 +83,15 @@
         SELECT * FROM tb_note n WHERE n.user_id = #{userid}
         AND n.note_type = #{notetype} AND n.note_id like #{noteid} AND n.note_name = #{notename}
     </select>
+
+    <!--永久删除-->
+    <delete id="delete1" >
+        DELETE FROM tb_note WHERE user_id = #{userid} AND note_id = #{noteid}
+    </delete>
+
+    <!--恢复文档-->
+    <update id="recover">
+        UPDATE tb_note n SET n.note_status = '1' AND n.note_modify_time = #{now}
+        WHERE n.user_id = #{userid} AND n.note_id = #{noteid}
+    </update>
 </mapper>

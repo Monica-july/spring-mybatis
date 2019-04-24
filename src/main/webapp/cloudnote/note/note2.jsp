@@ -176,16 +176,16 @@
 
     <div class="z0_xz" id="popup_a">
         <div class="z0_qr" id="a">
-            <input type="button" class="btn btn-flat btn-primary" value="重命名" onclick="">
-            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="删除" onclick="">
-            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="">
+            <input type="button" class="btn btn-flat btn-primary" value="重命名" onclick="rename()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="删除" onclick="invaild()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="cancel()">
         </div>
     </div>
     <div class="z0_xz" id="popup_b">
         <div class="z0_qr" id="b">
-            <input type="button" class="btn btn-flat btn-primary" value="恢复文件" onclick="confirm()">
-            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="永久删除" onclick="cancel()">
-            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="">
+            <input type="button" class="btn btn-flat btn-primary" value="恢复文件" onclick="recover()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="永久删除" onclick="delete1()">
+            <input type="button" class="btn btn-flat btn-primary" style="margin-left: 30px" value="取消" onclick="cancel()">
         </div>
     </div>
     <input type="hidden" name="noteType" id="noteType" value=""><%--笔记类型   1笔记  2文件夹--%>
@@ -193,6 +193,7 @@
     <input type="hidden" name="noteId" id="noteId" value="">
     <input type="hidden" name="noteContent" id="noteContent" value=""><%--笔记内容--%>
     <input type="hidden" id="upper" value=""><%--上一层noteid--%>
+    <input type="hidden" id="recycle" value="0">
 </form>
 
 

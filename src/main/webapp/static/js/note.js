@@ -2,6 +2,9 @@
  * 新建笔记
  */
 $("#c_note").click(function () {
+    if($("#recycle").val() != "0"){
+        return;
+    }
     $("#czmc").text("新建笔记");
     $(".z0_ymc").css("display","none");
     $("#create").css("display","block");
@@ -10,6 +13,9 @@ $("#c_note").click(function () {
 });
 /*新建文件夹*/
 $("#c_file").click(function () {
+    if($("#recycle").val() != "0"){
+        return;
+    }
     $("#czmc").text("新建文件夹");
     $(".z0_ymc").css("display","none");
     $("#create").css("display","block");
@@ -120,6 +126,7 @@ function getTree() {
                 }
                 $("#noteParent").val($("#upper").val())
             }else {
+                $("#noteParent").val($("#upper").val())
                 $("#list").empty();
             }
         }
@@ -167,6 +174,7 @@ function loadleft() {
 * 点击我的文件夹
 * */
 $("#mine").click(function () {
+    $("#recycle").val("0");
     $("#list").empty();
     loadleft();
 })
@@ -175,6 +183,7 @@ $("#mine").click(function () {
 * 加载最近修改的文档
 * */
 $("#lately").click(function () {
+    $("#recycle").val("2");
     $("#list").empty();
     $.ajax({
         url:basePath+"/note/notes",
@@ -205,6 +214,10 @@ $("#lately").click(function () {
  * 回收站
  */
 $("#recycleBin").click(function () {
+    recycle();
+})
+function recycle() {
+    $("#recycle").val("1");
     $.ajax({
         url:basePath+"/note/recycleBin",
         type:"post",
@@ -234,7 +247,7 @@ $("#recycleBin").click(function () {
             }
         }
     })
-})
+}
 
 /*
 * 右击文件弹框 删除
@@ -286,10 +299,11 @@ function right_delete(e) {
  * 鼠标单击  鼠标双击
  */
 $(document).delegate(".btn-large",'mousedown', function (e) {
-    e.preventDefault();
+    // e.preventDefault();
+    window.oncontextmenu = function(){return false;}
     var id = $(this).find("input").val();
     //点击
-    if(e.button == 1){
+    if(e.button == 0){
         var endstr = id.substring(id.length-1,id.length);
         if (";" == endstr){
             id = id.substring(0,id.length-1);
@@ -311,6 +325,7 @@ $(document).delegate(".btn-large",'mousedown', function (e) {
             })
         }else {
             $("#noteParent").val(id);
+            $("#noteId").val(id);
             getTree();
         }
     }else if(e.button == 2){  //右击
@@ -318,7 +333,14 @@ $(document).delegate(".btn-large",'mousedown', function (e) {
         if (";" == endstr){
             id = id.substring(0,id.length-1);
         }
+        $("#noteId").val(id);
         //弹出窗  重命名  删除   判断是不是回收站下   回收站弹出  恢复  永久删除
+        if ($("#recycle").val() == "1"){   //是回收站
+            $("#popup_b").css("display","block");
+        }else {   //不是回收站
+            $("#popup_a").css("display","block");
+
+        }
     }
 });
 
@@ -346,3 +368,64 @@ $("#save").click(function () {
 $("#return").click(function () {
     getTree();
 })
+
+/**
+ * 重命名
+ */
+function rename() {
+
+}
+
+/**
+ * 将文件置为无效
+ */
+function invaild() {
+    $("#popup_a").css("display","none");
+    $.ajax({
+        url:basePath+"/note/invalid",
+        type:"post",
+        data:$("#form1").serializeArray(),
+        async:true,
+        dataType:"json",
+        success:function (data) {
+            layer.msg(data.msg);
+            getTree();
+        }
+    })
+}
+
+/**
+ * 永久删除
+ */
+function delete1() {
+    $("#popup_b").css("display","none");
+    $.ajax({
+        url:basePath+"/note/delete1",
+        type:"post",
+        data:$("#form1").serializeArray(),
+        async:true,
+        dataType:"json",
+        success:function (data) {
+            layer.msg(data.msg);
+            recycle();
+        }
+    })
+}
+
+/**
+ * 恢复文件
+ */
+function recover() {
+    $("#popup_b").css("display","none");
+    $.ajax({
+        url:basePath+"/note/recover",
+        type:"post",
+        data:$("#form1").serializeArray(),
+        async:true,
+        dataType:"json",
+        success:function (data) {
+            layer.msg(data.msg);
+            recycle();
+        }
+    })
+}

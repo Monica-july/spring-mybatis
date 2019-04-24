@@ -220,4 +220,34 @@ public class NoteController {
         jsonResponse = noteService.save(fo);
         return jsonResponse;
     }
+
+    @ResponseBody
+    @RequestMapping("/delete1")
+    public JsonResponse delete1(HttpServletRequest request,NoteFo fo){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        fo.setUserId(user.getUserId());
+        jsonResponse = noteService.delete1(fo);
+        return jsonResponse;
+    }
+
+    @ResponseBody
+    @RequestMapping("/recover")
+    public JsonResponse recover(HttpServletRequest request,NoteFo fo){
+        JsonResponse jsonResponse = new JsonResponse();
+        UserVo user = (UserVo)request.getSession().getAttribute(Const.USERSESSION);
+        if (user == null){
+            jsonResponse.setMsg("未检测到登录状态");
+            jsonResponse.setStatus("31");
+            return jsonResponse;
+        }
+        fo.setUserId(user.getUserId());
+        jsonResponse = noteService.recover(fo);
+        return jsonResponse;
+    }
 }

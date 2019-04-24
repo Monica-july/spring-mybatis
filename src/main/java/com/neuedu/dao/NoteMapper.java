@@ -81,4 +81,13 @@ public interface NoteMapper {
      */
     NoteVo getExist(@Param("userid")String userid,@Param("noteid")String noteid,
                     @Param("notename")String notename,@Param("notetype")String notetype);
+
+    /**
+     * 永久删除
+     * @param userid
+     * @param noteid
+     */
+    void delete1(@Param("userid")String userid,@Param("noteid")String noteid);
+
+    void recover(@Param("userid")String userid,@Param("noteid")String noteid,@Param("now")String now);
 }
